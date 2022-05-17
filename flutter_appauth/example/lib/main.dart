@@ -199,8 +199,7 @@ class _MyAppState extends State<MyApp> {
           scopes: _scopes));
       _processTokenResponse(result);
       await _testApi(result);
-    } catch (e) {
-      print(e);
+    } catch (_) {
       _clearBusyState();
     }
   }
