@@ -19,6 +19,7 @@ class AuthorizationTokenRequest extends TokenRequest
     List<String>? promptValues,
     bool allowInsecureConnections = false,
     bool preferEphemeralSession = false,
+    String? nonce,
     String? responseMode,
     bool defaultSystemBrowser = false,
   }) : super(
@@ -32,6 +33,7 @@ class AuthorizationTokenRequest extends TokenRequest
           serviceConfiguration: serviceConfiguration,
           additionalParameters: additionalParameters,
           allowInsecureConnections: allowInsecureConnections,
+          nonce: nonce,
         ) {
     this.loginHint = loginHint;
     this.promptValues = promptValues;

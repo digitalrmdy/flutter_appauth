@@ -3,7 +3,7 @@ import 'package:flutter_appauth_platform_interface/src/method_channel_flutter_ap
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutter_appauth_platform_interface/flutter_appauth_platform_interface.dart';
-import 'package:mockito/mockito.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 void main() {
@@ -40,6 +40,7 @@ void main() {
           'preferEphemeralSession': false,
           'promptValues': null,
           'responseMode': null,
+          'nonce': null,
           'defaultSystemBrowser': false,
         })
       ],
@@ -73,6 +74,7 @@ void main() {
           'grantType': 'authorization_code',
           'codeVerifier': null,
           'responseMode': 'fragment',
+          'nonce': null,
           'defaultSystemBrowser': false,
         })
       ],
@@ -106,7 +108,8 @@ void main() {
             'refreshToken': 'someRefreshToken',
             'authorizationCode': null,
             'grantType': 'refresh_token',
-            'codeVerifier': null
+            'codeVerifier': null,
+            'nonce': null,
           })
         ],
       );
@@ -132,7 +135,8 @@ void main() {
             'refreshToken': null,
             'authorizationCode': 'someAuthorizationCode',
             'grantType': 'authorization_code',
-            'codeVerifier': null
+            'codeVerifier': null,
+            'nonce': null,
           })
         ],
       );
@@ -157,7 +161,8 @@ void main() {
             'refreshToken': null,
             'authorizationCode': null,
             'grantType': 'someGrantType',
-            'codeVerifier': null
+            'codeVerifier': null,
+            'nonce': null,
           })
         ],
       );
