@@ -84,6 +84,7 @@
     _discoveryUrl = [ArgumentProcessor processArgumentValue:arguments withKey:@"discoveryUrl"];
     _serviceConfigurationParameters = [ArgumentProcessor processArgumentValue:arguments withKey:@"serviceConfiguration"];
     _additionalParameters = [ArgumentProcessor processArgumentValue:arguments withKey:@"additionalParameters"];
+    _preferEphemeralSession = [[ArgumentProcessor processArgumentValue:arguments withKey:@"preferEphemeralSession"] isEqual:@YES];
     _defaultSystemBrowser = [[ArgumentProcessor processArgumentValue:arguments withKey:@"defaultSystemBrowser"] isEqual:@YES];
     return self;
 }
