@@ -13,9 +13,8 @@ class EndSessionRequest with AcceptedAuthorizationServiceConfigurationDetails {
     String? discoveryUrl,
     AuthorizationServiceConfiguration? serviceConfiguration,
     this.defaultSystemBrowser = false,
-  }) {
-    assert((idTokenHint == null && postLogoutRedirectUrl == null) ||
-        (idTokenHint != null && postLogoutRedirectUrl != null));
+  }) : assert((idTokenHint == null && postLogoutRedirectUrl == null) ||
+            (idTokenHint != null && postLogoutRedirectUrl != null)) {
     this.serviceConfiguration = serviceConfiguration;
     this.issuer = issuer;
     this.discoveryUrl = discoveryUrl;
