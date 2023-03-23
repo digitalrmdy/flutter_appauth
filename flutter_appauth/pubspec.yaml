@@ -12,7 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_appauth_platform_interface:
-    path: ../flutter_appauth_platform_interface
+    git:
+      url: https://github.com/digitalrmdy/flutter_appauth.git
+      path: flutter_appauth_platform_interface
+      ref: feature/default_system_browser
 
 flutter:
   plugin:
