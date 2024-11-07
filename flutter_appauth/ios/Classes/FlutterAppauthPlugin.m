@@ -302,7 +302,7 @@ AppAuthAuthorization* authorization;
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
-    return [self application:application openURL:url options:@{}];
+    return [self application:application openURL:url options:@{} completionHandler:nil];
 }
 #endif
 

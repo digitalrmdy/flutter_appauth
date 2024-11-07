@@ -73,7 +73,9 @@
   }];
 }
 
-- (id<OIDExternalUserAgent>)userAgentWithViewController:(UIViewController *)rootViewController useEphemeralSession:(BOOL)useEphemeralSession useDefaultSystemBrowser:(BOOL)useDefaultSystemBrowser {
+- (id<OIDExternalUserAgent>)userAgentWithViewController:(UIViewController *)rootViewController
+                                    useEphemeralSession:(BOOL)useEphemeralSession
+                                useDefaultSystemBrowser:(BOOL)useDefaultSystemBrowser {
     if (useDefaultSystemBrowser) {
        return [OIDExternalUserAgentIOSCustomBrowser CustomBrowserSafari];
     }
