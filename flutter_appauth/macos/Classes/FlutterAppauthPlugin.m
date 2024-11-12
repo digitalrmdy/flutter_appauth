@@ -218,7 +218,7 @@ AppAuthAuthorization *authorization;
                       result:result
                 exchangeCode:exchangeCode
                        nonce:requestParameters.nonce,
-                       defaultSystemBrowser:requestParameters.defaultSystemBrowser];
+        defaultSystemBrowser:requestParameters.defaultSystemBrowser];
   } else if (requestParameters.discoveryUrl) {
     NSURL *discoveryUrl = [NSURL URLWithString:requestParameters.discoveryUrl];
     [OIDAuthorizationService
