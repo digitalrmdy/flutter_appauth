@@ -31,7 +31,7 @@
 @property(nonatomic, strong) NSDictionary *serviceConfigurationParameters;
 @property(nonatomic, strong) NSDictionary *additionalParameters;
 @property(nonatomic, strong) NSNumber *externalUserAgent;
-@property(nonatomic, strong) BOOL *defaultSystemBrowser;
+@property(nonatomic, readwrite) BOOL defaultSystemBrowser;
 
 @end
 
@@ -217,7 +217,8 @@ AppAuthAuthorization *authorization;
            externalUserAgent:requestParameters.externalUserAgent
                       result:result
                 exchangeCode:exchangeCode
-                       nonce:requestParameters.nonce];
+                       nonce:requestParameters.nonce,
+                       defaultSystemBrowser:requestParameters.defaultSystemBrowser];
   } else if (requestParameters.discoveryUrl) {
     NSURL *discoveryUrl = [NSURL URLWithString:requestParameters.discoveryUrl];
     [OIDAuthorizationService
