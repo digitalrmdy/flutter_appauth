@@ -13,8 +13,7 @@
                   result:(FlutterResult)result
             exchangeCode:(BOOL)exchangeCode
                    nonce:(NSString *)nonce
-        defaultSystemBrowser:(BOOL)defaultSystemBrowser
-{
+    defaultSystemBrowser:(BOOL)defaultSystemBrowser {
   NSString *codeVerifier = [OIDAuthorizationRequest generateCodeVerifier];
   NSString *codeChallenge =
       [OIDAuthorizationRequest codeChallengeS256ForVerifier:codeVerifier];
@@ -39,8 +38,7 @@
     id<OIDExternalUserAgent> agent =
         [self userAgentWithViewController:rootViewController
                         externalUserAgent:externalUserAgent
-                useDefaultSystemBrowser:defaultSystemBrowser
-        ];
+                  useDefaultSystemBrowser:defaultSystemBrowser];
     return [OIDAuthState
         authStateByPresentingAuthorizationRequest:request
                                 externalUserAgent:agent
@@ -73,8 +71,7 @@
     id<OIDExternalUserAgent> agent =
         [self userAgentWithViewController:rootViewController
                         externalUserAgent:externalUserAgent
-                useDefaultSystemBrowser:defaultSystemBrowser
-        ];
+                  useDefaultSystemBrowser:defaultSystemBrowser];
     return [OIDAuthorizationService
         presentAuthorizationRequest:request
                   externalUserAgent:agent
@@ -142,7 +139,8 @@
   UIViewController *rootViewController = [self rootViewController];
   id<OIDExternalUserAgent> externalUserAgent =
       [self userAgentWithViewController:rootViewController
-                      externalUserAgent:requestParameters.externalUserAgent useDefaultSystemBrowser:requestParameters.defaultSystemBrowser];
+                      externalUserAgent:requestParameters.externalUserAgent
+                useDefaultSystemBrowser:requestParameters.defaultSystemBrowser];
 
   return [OIDAuthorizationService
       presentEndSessionRequest:endSessionRequest
@@ -171,11 +169,10 @@
 - (id<OIDExternalUserAgent>)
     userAgentWithViewController:(UIViewController *)rootViewController
               externalUserAgent:(NSNumber *)externalUserAgent
-        useDefaultSystemBrowser:(BOOL)useDefaultSystemBrowser
-{
-    if (useDefaultSystemBrowser) {
-        return [OIDExternalUserAgentIOSCustomBrowser CustomBrowserSafari];
-    }
+        useDefaultSystemBrowser:(BOOL)useDefaultSystemBrowser {
+  if (useDefaultSystemBrowser) {
+    return [OIDExternalUserAgentIOSCustomBrowser CustomBrowserSafari];
+  }
   if ([externalUserAgent integerValue] == EphemeralASWebAuthenticationSession) {
     return [[OIDExternalUserAgentIOSNoSSO alloc]
         initWithPresentingViewController:rootViewController];

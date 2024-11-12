@@ -73,7 +73,7 @@ typedef NS_ENUM(NSInteger, ExternalUserAgent) {
                   result:(FlutterResult)result
             exchangeCode:(BOOL)exchangeCode
                    nonce:(NSString *)nonce
-            defaultSystemBrowser:(BOOL)defaultSystemBrowser;
+    defaultSystemBrowser:(BOOL)defaultSystemBrowser;
 
 - (id<OIDExternalUserAgentSession>)
     performEndSessionRequest:(OIDServiceConfiguration *)serviceConfiguration
