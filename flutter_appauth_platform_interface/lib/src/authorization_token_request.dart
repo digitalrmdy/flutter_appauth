@@ -1,43 +1,32 @@
 import 'authorization_parameters.dart';
-import 'authorization_service_configuration.dart';
-import 'grant_types.dart';
+import 'external_user_agent.dart';
+import 'grant_type.dart';
 import 'token_request.dart';
 
 /// Details required for a combined authorization and code exchange request
-class AuthorizationTokenRequest extends TokenRequest
-    with AuthorizationParameters {
+class AuthorizationTokenRequest extends TokenRequest with AuthorizationParameters {
   AuthorizationTokenRequest(
-    String clientId,
-    String redirectUrl, {
+    super.clientId,
+    super.redirectUrl, {
     String? loginHint,
-    String? clientSecret,
-    List<String>? scopes,
-    AuthorizationServiceConfiguration? serviceConfiguration,
-    Map<String, String>? additionalParameters,
-    String? issuer,
-    String? discoveryUrl,
+    super.clientSecret,
+    super.scopes,
+    super.serviceConfiguration,
+    super.additionalParameters,
+    super.issuer,
+    super.discoveryUrl,
     List<String>? promptValues,
-    bool allowInsecureConnections = false,
-    bool preferEphemeralSession = false,
-    String? nonce,
+    super.allowInsecureConnections,
+    ExternalUserAgent externalUserAgent = ExternalUserAgent.asWebAuthenticationSession,
+    super.nonce,
     String? responseMode,
     bool defaultSystemBrowser = false,
   }) : super(
-          clientId,
-          redirectUrl,
-          clientSecret: clientSecret,
-          discoveryUrl: discoveryUrl,
-          issuer: issuer,
-          scopes: scopes,
           grantType: GrantType.authorizationCode,
-          serviceConfiguration: serviceConfiguration,
-          additionalParameters: additionalParameters,
-          allowInsecureConnections: allowInsecureConnections,
-          nonce: nonce,
         ) {
     this.loginHint = loginHint;
     this.promptValues = promptValues;
-    this.preferEphemeralSession = preferEphemeralSession;
+    this.externalUserAgent = externalUserAgent;
     this.responseMode = responseMode;
     this.defaultSystemBrowser = defaultSystemBrowser;
   }

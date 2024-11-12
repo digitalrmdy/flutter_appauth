@@ -1,10 +1,10 @@
 import 'authorization_parameters.dart';
 import 'authorization_service_configuration.dart';
 import 'common_request_details.dart';
+import 'external_user_agent.dart';
 
 /// The details of an authorization request to get an authorization code.
-class AuthorizationRequest extends CommonRequestDetails
-    with AuthorizationParameters {
+class AuthorizationRequest extends CommonRequestDetails with AuthorizationParameters {
   AuthorizationRequest(
     String clientId,
     String redirectUrl, {
@@ -16,7 +16,7 @@ class AuthorizationRequest extends CommonRequestDetails
     Map<String, String>? additionalParameters,
     List<String>? promptValues,
     bool allowInsecureConnections = false,
-    bool preferEphemeralSession = false,
+    ExternalUserAgent externalUserAgent = ExternalUserAgent.asWebAuthenticationSession,
     String? nonce,
     String? responseMode,
     bool defaultSystemBrowser = false,
@@ -31,7 +31,7 @@ class AuthorizationRequest extends CommonRequestDetails
     this.loginHint = loginHint;
     this.promptValues = promptValues;
     this.allowInsecureConnections = allowInsecureConnections;
-    this.preferEphemeralSession = preferEphemeralSession;
+    this.externalUserAgent = externalUserAgent;
     this.nonce = nonce;
     this.responseMode = responseMode;
     this.defaultSystemBrowser = defaultSystemBrowser;

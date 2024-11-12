@@ -1,3 +1,30 @@
+## [8.0.0]
+
+* **Breaking change** Replaced the `preferEphemeralSession` property in the `AuthorizationRequest`, `AuthorizationTokenRequest` and  `EndSessionRequest` classes with `externalUserAgent`. Thanks to the PR from [john-slow](https://github.com/john-slow). `externalUserAgent` is presented by the newly `ExternalUserAgent` enum that has the following values
+    * `asWebAuthenticationSession`: uses the [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) APIs where possible. This is the default value and was the default behaviour behaviour that aligns with what the AppAuth iOS SDK would do in choosing the best available user-agent
+    * `ephemeralAsWebAuthenticationSession`: uses an ephemeral session via the [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) APIs. Applications that previously used `preferEphemeralSession` and specified to be `true` can migrate by specifying this enum value
+    * `sfSafariViewController`: uses the [SFSafariViewController](https://developer.apple.com/documentation/safariservices/sfsafariviewcontroller) APIs
+
+## [7.0.1]
+
+* Updated `FlutterAppAuthPlatformErrorDetails` so all the constructor parameters are optional instead of being mandatory through the `required` keyword. This should be a non-breaking change since all the parameters were nullable. Change was done to make code using the class easier to use e.g. when writing tests
+
+## [7.0.0]
+
+* **Breaking change** Bumped minimum Flutter and Dart SDK constraints to 3.13.0 and 3.1.0 respectively
+* **Breaking change** all methods have now been made to return non-nullable types
+* Updated error handling to expose more details for each platform. Plugin will now throw `FlutterAppAuthUserCancelledException` when an authorization request has been cancelled as a result of the user closing the browser. For other scenarios the plugin will throw `FlutterAppAuthPlatformException`. See the API docs for both classes for more details on the available details. Both exception classes inherit from `PlatformException` so the changes should be backwards compatible
+
+## [6.0.0]
+
+* **Breaking change** Aligned minimum Flutter and Dart SDK constraints to 3.0.0 and 2.17 respectively
+* Bumped maximum Dart SDK constraint
+
+
+## [5.2.0+1]
+
+* Updated code for API docs to avoid lines longer than 80 characters
+
 ## [5.2.0]
 
 * Added `preferEphemeralSession` to `EndSessionRequest` Thanks to the PR from [Daniel Ziegler](https://github.com/ziegler-daniel).

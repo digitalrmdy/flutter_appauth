@@ -1,12 +1,14 @@
 name: flutter_appauth
-description: This plugin provides an abstraction around the Android and iOS AppAuth SDKs so it can be used to communicate with OAuth 2.0 and OpenID Connect providers
-version: 4.2.1
+description: This plugin provides an abstraction around the Android and iOS
+  AppAuth SDKs so it can be used to communicate with OAuth 2.0 and OpenID
+  Connect providers
+version: 8.0.0+1
 homepage: https://github.com/MaikuB/flutter_appauth/tree/master/flutter_appauth
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5"
+  sdk: ^3.1.0
+  flutter: ">=3.13.0"
 
 dependencies:
   flutter:
@@ -15,7 +17,7 @@ dependencies:
     git:
       url: https://github.com/digitalrmdy/flutter_appauth.git
       path: flutter_appauth_platform_interface
-      ref: feature/default_system_browser
+      ref: feature/default_system_browser_updated
 
 flutter:
   plugin:
@@ -27,3 +29,5 @@ flutter:
         pluginClass: FlutterAppauthPlugin
       macos:
         pluginClass: FlutterAppauthPlugin
+dev_dependencies:
+  flutter_lints: ^3.0.2

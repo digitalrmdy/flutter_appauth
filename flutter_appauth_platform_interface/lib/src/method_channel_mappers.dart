@@ -4,11 +4,10 @@ import 'authorization_service_configuration.dart';
 import 'authorization_token_request.dart';
 import 'common_request_details.dart';
 import 'end_session_request.dart';
-import 'grant_types.dart';
+import 'grant_type.dart';
 import 'token_request.dart';
 
-Map<String, Object?> _convertCommonRequestDetailsToMap(
-    CommonRequestDetails commonRequestDetails) {
+Map<String, Object?> _convertCommonRequestDetailsToMap(CommonRequestDetails commonRequestDetails) {
   return <String, Object?>{
     'clientId': commonRequestDetails.clientId,
     'issuer': commonRequestDetails.issuer,
@@ -33,7 +32,7 @@ extension EndSessionRequestMapper on EndSessionRequest {
       'issuer': issuer,
       'discoveryUrl': discoveryUrl,
       'serviceConfiguration': serviceConfiguration?.toMap(),
-      'preferEphemeralSession': preferEphemeralSession,
+      'externalUserAgent': externalUserAgent?.index,
       'defaultSystemBrowser': defaultSystemBrowser,
     };
   }
@@ -46,8 +45,7 @@ extension AuthorizationRequestParameters on AuthorizationRequest {
   }
 }
 
-extension AuthorizationServiceConfigurationMapper
-    on AuthorizationServiceConfiguration {
+extension AuthorizationServiceConfigurationMapper on AuthorizationServiceConfiguration {
   Map<String, Object?> toMap() {
     return <String, Object?>{
       'tokenEndpoint': tokenEndpoint,
@@ -65,8 +63,7 @@ extension TokenRequestMapper on TokenRequest {
 
 extension AuthorizationTokenRequestMapper on AuthorizationTokenRequest {
   Map<String, Object?> toMap() {
-    return _convertTokenRequestToMap(this)
-      ..addAll(_convertAuthorizationParametersToMap(this));
+    return _convertTokenRequestToMap(this)..addAll(_convertAuthorizationParametersToMap(this));
   }
 }
 
@@ -91,8 +88,7 @@ String? _inferGrantType(TokenRequest tokenRequest) {
     return GrantType.authorizationCode;
   }
 
-  throw ArgumentError.value(
-      null, 'grantType', 'Grant type not specified and cannot be inferred');
+  throw ArgumentError.value(null, 'grantType', 'Grant type not specified and cannot be inferred');
 }
 
 Map<String, Object?> _convertAuthorizationParametersToMap(
@@ -100,7 +96,7 @@ Map<String, Object?> _convertAuthorizationParametersToMap(
   return <String, Object?>{
     'loginHint': authorizationParameters.loginHint,
     'promptValues': authorizationParameters.promptValues,
-    'preferEphemeralSession': authorizationParameters.preferEphemeralSession,
+    'externalUserAgent': authorizationParameters.externalUserAgent?.index,
     'responseMode': authorizationParameters.responseMode,
     'defaultSystemBrowser': authorizationParameters.defaultSystemBrowser,
   };

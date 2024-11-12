@@ -11,14 +11,14 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
 
 ## Tutorials from identity providers
 
+* [Asgardeo](https://wso2.com/asgardeo/docs/tutorials/auth-users-into-flutter-apps/)
 * [Auth0](https://auth0.com/blog/get-started-with-flutter-authentication/)
 * [FusionAuth](https://fusionauth.io/blog/2020/11/23/securing-flutter-oauth/)
 
 
 ## Getting Started
 
-Please see the example that demonstrates how to sign into the demo IdentityServer instance (https://demo.duendesoftware.com). It has also been tested with Azure B2C and Google Sign-in. It is suggested that developers check the documentation of the identity provider they are using to see what capabilities it supports e.g. how to logout, what values of the `prompt` parameter it supports etc. API docs can be found [here](https://pub.dartlang.org/documentation/flutter_appauth/latest/)
-
+Please see the example that demonstrates how to sign into the demo IdentityServer instance (https://demo.duendesoftware.com). It has also been tested with Azure B2C, Auth0, FusionAuth and Google Sign-in. Developers should check the documentation of the identity provider they are using to see what capabilities it supports (e.g. how to logout, what values of the `prompt` parameter it supports etc) and how to configure/register their application with the identity provider. Understanding [OAuth 2.0](https://datatracker.ietf.org/doc/html/rfc6749) is also essential, especially when it comes to [best practices for native mobile apps](https://datatracker.ietf.org/doc/html/rfc8252).
 
 The first step is to create an instance of the plugin
 
@@ -82,6 +82,18 @@ final TokenResponse result = await appAuth.token(TokenRequest('<client_id>', '<r
 
 Reusing the nonce and code verifier is particularly important as the AppAuth SDKs (especially on Android) may return an error (e.g. ID token validation error due to nonce mismatch) if this isn't done
 
+### Detecting user cancellation
+
+Both the `authorize` and `authorizeAndExchangeCode` launch the user into a browser which they can cancel. This shouldn't be considered an error and should be handled gracefully.
+
+```dart
+try {
+  await appAuth.authorize(...); // Or authorizeAndExchangeCode(...)
+} on FlutterAppAuthUserCancelledException catch (e) {
+  // Handle user cancellation
+}
+```
+
 ### Refreshing tokens
 
 Some providers may return a refresh token that could be used to refresh short-lived access tokens. A request to get a new access token before it expires could be made that would like similar to the following code
@@ -105,6 +117,27 @@ await appAuth.endSession(EndSessionRequest(
 ```
 
 The above code passes an `AuthorizationServiceConfiguration` with all the endpoints defined but alternatives are to specify an `issuer` or `discoveryUrl` like you would with the other APIs in the plugin (e.g. `authorizeAndExchangeCode()`).
+
+### Handling errors
+
+Each of these methods will throw exceptions if anything goes wrong. For example:
+
+```dart
+
+try {
+  await appAuth.authorize(...);
+} on FlutterAppAuthPlatformException catch (e) {
+  final FlutterAppAuthPlatformErrorDetails details = e.details;
+  // Handle exceptions based on errors from AppAuth.
+} catch (e) {
+  // Handle other errors.
+}
+
+The `FlutterAppAuthPlatformErrorDetails` object contains all the error information from the underlying platform's AppAuth SDK.
+
+This includes the error codes specified in the [RFC](https://datatracker.ietf.org/doc/html/rfc6749#section-5.2).
+
+```
 
 ### Ephemeral Sessions (iOS and macOS only)
 On iOS (versions 13 and above) and macOS you can use the option `preferEphemeralSession = true` to start an 
@@ -144,6 +177,7 @@ AndroidManifest.xml:
 ...
 <activity
         android:name="net.openid.appauth.RedirectUriReceiverActivity"
+        android:theme="@style/Theme.AppCompat.Translucent.NoTitleBar"
         android:exported="true"
         tools:node="replace">
     <intent-filter>
@@ -183,6 +217,13 @@ Go to the `Info.plist` for your iOS/macOS app to specify the custom scheme so th
     </dict>
 </array>
 ```
+
+Note: iOS apps generate a file called `cache.db` which contains the table `cfurl_cache_receiver_data`. This table will contain the access token obtained after the login is completed. If the potential data leak represents a threat for your application then you can disable the information caching for the entire iOS app (ex. https://kunalgupta1508.medium.com/data-leakage-with-cache-db-2d311582cf23).
+
+
+## API docs
+
+API docs can be found [here](https://pub.dartlang.org/documentation/flutter_appauth/latest/)
 
 ## FAQs
 

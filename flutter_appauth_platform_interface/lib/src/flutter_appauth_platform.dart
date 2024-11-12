@@ -10,7 +10,8 @@ import 'method_channel_flutter_appauth.dart';
 import 'token_request.dart';
 import 'token_response.dart';
 
-/// The platform interface that all implementations of flutter_appauth must implement.
+/// The platform interface that all implementations of flutter_appauth must
+/// implement.
 abstract class FlutterAppAuthPlatform extends PlatformInterface {
   FlutterAppAuthPlatform() : super(token: _token);
 
@@ -30,24 +31,35 @@ abstract class FlutterAppAuthPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Convenience method for authorizing and then exchanges the authorization grant code.
-  Future<AuthorizationTokenResponse?> authorizeAndExchangeCode(
+  /// Convenience method for authorizing and then exchanges the authorization
+  /// grant code.
+  Future<AuthorizationTokenResponse> authorizeAndExchangeCode(
       AuthorizationTokenRequest request) {
     throw UnimplementedError(
         'authorizeAndExchangeCode() has not been implemented');
   }
 
   /// Sends an authorization request.
-  Future<AuthorizationResponse?> authorize(AuthorizationRequest request) {
+  ///
+  /// This is done by sending a request to the authorization server's
+  /// [authorization endpoint](https://datatracker.ietf.org/doc/html/rfc6749#section-3.1).
+  Future<AuthorizationResponse> authorize(AuthorizationRequest request) {
     throw UnimplementedError('authorize() has not been implemented');
   }
 
   /// For exchanging tokens.
-  Future<TokenResponse?> token(TokenRequest request) {
+  ///
+  /// This is done by sending a request to the authorization server's
+  /// [token endpoint](https://datatracker.ietf.org/doc/html/rfc6749#section-3.2).
+  Future<TokenResponse> token(TokenRequest request) {
     throw UnimplementedError('token() has not been implemented');
   }
 
-  Future<EndSessionResponse?> endSession(EndSessionRequest request) {
+  /// Performs an end session/logout request.
+  ///
+  /// This is done by sending a request to the authorization server's
+  /// end session endpoint per the [RP-initiated logout spec](https://openid.net/specs/openid-connect-rpinitiated-1_0.html).
+  Future<EndSessionResponse> endSession(EndSessionRequest request) {
     throw UnimplementedError('endSession() has not been implemented');
   }
 }

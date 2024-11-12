@@ -5,23 +5,22 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const MethodChannel channel =
-      MethodChannel('crossingthestreams.io/flutter_appauth');
+  const MethodChannel channel = MethodChannel('crossingthestreams.io/flutter_appauth');
   final List<MethodCall> log = <MethodCall>[];
-  channel.setMockMethodCallHandler((MethodCall methodCall) async {
+  TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+      .setMockMethodCallHandler(channel, (MethodCall methodCall) async {
     log.add(methodCall);
+    return <Object, Object>{};
   });
 
   tearDown(() {
     log.clear();
   });
 
-  final MethodChannelFlutterAppAuth flutterAppAuth =
-      MethodChannelFlutterAppAuth();
+  final MethodChannelFlutterAppAuth flutterAppAuth = MethodChannelFlutterAppAuth();
 
   test('authorize', () async {
-    await flutterAppAuth.authorize(AuthorizationRequest(
-        'someClientId', 'someRedirectUrl',
+    await flutterAppAuth.authorize(AuthorizationRequest('someClientId', 'someRedirectUrl',
         discoveryUrl: 'someDiscoveryUrl', loginHint: 'someLoginHint'));
     expect(
       log,
@@ -36,7 +35,7 @@ void main() {
           'serviceConfiguration': null,
           'additionalParameters': null,
           'allowInsecureConnections': false,
-          'preferEphemeralSession': false,
+          'externalUserAgent': ExternalUserAgent.asWebAuthenticationSession.index,
           'promptValues': null,
           'responseMode': null,
           'nonce': null,
@@ -49,9 +48,7 @@ void main() {
   test('authorizeAndExchangeCode', () async {
     await flutterAppAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
         'someClientId', 'someRedirectUrl',
-        discoveryUrl: 'someDiscoveryUrl',
-        loginHint: 'someLoginHint',
-        responseMode: 'fragment'));
+        discoveryUrl: 'someDiscoveryUrl', loginHint: 'someLoginHint', responseMode: 'fragment'));
     expect(
       log,
       <Matcher>[
@@ -65,7 +62,7 @@ void main() {
           'serviceConfiguration': null,
           'additionalParameters': null,
           'allowInsecureConnections': false,
-          'preferEphemeralSession': false,
+          'externalUserAgent': ExternalUserAgent.asWebAuthenticationSession.index,
           'promptValues': null,
           'clientSecret': null,
           'refreshToken': null,
@@ -83,9 +80,8 @@ void main() {
   group('token', () {
     test('cannot infer grant type', () async {
       expect(
-          () async => await flutterAppAuth.token(TokenRequest(
-              'someClientId', 'someRedirectUrl',
-              discoveryUrl: 'someDiscoveryUrl')),
+          () async => await flutterAppAuth.token(
+              TokenRequest('someClientId', 'someRedirectUrl', discoveryUrl: 'someDiscoveryUrl')),
           throwsArgumentError);
     });
     test('infers refresh token grant type', () async {
@@ -116,8 +112,7 @@ void main() {
 
     test('infers authorization code grant type', () async {
       await flutterAppAuth.token(TokenRequest('someClientId', 'someRedirectUrl',
-          discoveryUrl: 'someDiscoveryUrl',
-          authorizationCode: 'someAuthorizationCode'));
+          discoveryUrl: 'someDiscoveryUrl', authorizationCode: 'someAuthorizationCode'));
       expect(
         log,
         <Matcher>[
@@ -184,7 +179,7 @@ void main() {
         'issuer': null,
         'discoveryUrl': 'someDiscoveryUrl',
         'serviceConfiguration': null,
-        'preferEphemeralSession': false,
+        'externalUserAgent': ExternalUserAgent.asWebAuthenticationSession.index,
         'defaultSystemBrowser': false,
       })
     ]);

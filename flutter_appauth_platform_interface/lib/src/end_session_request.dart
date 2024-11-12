@@ -1,13 +1,14 @@
 import 'package:flutter_appauth_platform_interface/flutter_appauth_platform_interface.dart';
 import 'package:flutter_appauth_platform_interface/src/accepted_authorization_service_configuration_details.dart';
 
+/// Represents an end session request.
 class EndSessionRequest with AcceptedAuthorizationServiceConfigurationDetails {
   EndSessionRequest({
     this.idTokenHint,
     this.postLogoutRedirectUrl,
     this.state,
     this.allowInsecureConnections = false,
-    this.preferEphemeralSession = false,
+    this.externalUserAgent = ExternalUserAgent.asWebAuthenticationSession,
     this.additionalParameters,
     String? issuer,
     String? discoveryUrl,
@@ -25,7 +26,8 @@ class EndSessionRequest with AcceptedAuthorizationServiceConfigurationDetails {
   /// Used to indicate the identity of the user requesting to be logged out.
   final String? idTokenHint;
 
-  /// Represents the URL to redirect to after the logout operation has been completed.
+  /// Represents the URL to redirect to after the logout operation has been
+  /// completed.
   ///
   /// When specified, the [idTokenHint] must also be provided.
   final String? postLogoutRedirectUrl;
@@ -37,13 +39,10 @@ class EndSessionRequest with AcceptedAuthorizationServiceConfigurationDetails {
   /// This property is only applicable to Android.
   bool allowInsecureConnections;
 
-  /// Whether to use an ephemeral session that prevents cookies and other browser data being shared with the user's normal browser session.
-  ///
-  /// This property is only applicable to iOS (versions 13 and above) and macOS.
-  ///
-  /// preferEphemeralSession = true must only be used here, if it is also used for the sign in call.
-  bool preferEphemeralSession;
+  /// Specifies the external user-agent to use.
+  ExternalUserAgent? externalUserAgent;
 
+  /// Additional parameters to include in the request.
   final Map<String, String>? additionalParameters;
 
   /// Whether to open the default system browser outside the app.

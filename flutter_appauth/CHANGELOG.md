@@ -1,3 +1,90 @@
+## [8.0.0+1]
+
+* Updated 8.0.0 as it was missing mention of the privacy manifest file to the macOS implementation of the plugin
+
+## [8.0.0]
+
+* **Breaking change** Replaced the `preferEphemeralSession` property in the `AuthorizationRequest`, `AuthorizationTokenRequest` and  `EndSessionRequest` classes with `externalUserAgent`. Thanks to the PR from [john-slow](https://github.com/john-slow). `externalUserAgent` is presented by the newly `ExternalUserAgent` enum that has the following values
+    * `asWebAuthenticationSession`: uses the [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) APIs where possible. This is the default value and was the default behaviour behaviour that aligns with what the AppAuth iOS SDK would do in choosing the best available user-agent
+    * `ephemeralAsWebAuthenticationSession`: uses an ephemeral session via the [ASWebAuthenticationSession](https://developer.apple.com/documentation/authenticationservices/aswebauthenticationsession) APIs. Applications that previously used `preferEphemeralSession` and specified to be `true` can migrate by specifying this enum value
+    * `sfSafariViewController`: uses the [SFSafariViewController](https://developer.apple.com/documentation/safariservices/sfsafariviewcontroller) APIs
+* Updated iOS plugin details to indicate it needs a minimum iOS version of 11.0. This aligns with the minimum best supported version for Flutter 3.13.0
+* Updated macOS plugin details to indicate it needs a minimum iOS version of 10.14. This aligns with the minimum best supported version for Flutter 3.13.0
+* [Android] some refactoring around code related to `allowInsecureConnections` has been done in response to issue [554](https://github.com/MaikuB/flutter_appauth/issues/554)
+* [Android] added logic to help with issues like [205](https://github.com/MaikuB/flutter_appauth/issues/205) where an app tries to refresh a token but the instances of `AuthorizationService` have been disposed
+* [macOS] added privacy manifest file
+
+# 7.0.1
+
+* [iOS] correctly bumped AppAuth iOS dependency to 1.7.5. The 7.0.0 release mistakenly only bumped the dependency for macOS
+
+# 7.0.0
+
+* **Breaking change** Bumped minimum Flutter and Dart SDK constraints to 3.13.0 and 3.1.0 respectively
+* **Breaking change** all methods have now been made to return non-nullable types
+* [macOS] bumped AppAuth iOS dependency to 1.7.5
+* Updated error handling to expose more details for each platform. Plugin will now throw `FlutterAppAuthUserCancelledException` when an authorization request has been cancelled as a result of the user closing the browser. For other scenarios the plugin will throw `FlutterAppAuthPlatformException`. See the API docs for both classes for more details on the available details. Both exception classes inherit from `PlatformException` so the changes should be backwards compatible
+* Updated readme with more details on essential knowledge and links to OAuth 2.0 specifications
+
+# 6.0.7
+
+* [Android] updated plugin to specify `Theme.AppCompat.Translucent.NoTitleBar` as the theme for the `RedirectUriReceiverActivity` from the AppAuth Android SDK. This is to fix a crash raised with issues [#362](https://github.com/MaikuB/flutter_appauth/issues/362) and [#515](https://github.com/MaikuB/flutter_appauth/issues/515)
+
+# 6.0.6
+
+* [iOS][macOS] bumped AppAuth iOS dependency to 1.7.4
+
+# 6.0.5
+
+* [iOS] bumped AppAuth iOS dependency to 1.7.2
+
+# 6.0.4
+
+* [Android] when no suitable browser is found when calling either `authorize()` or `authorizeAndExchange()`, rather than crashing the plugin will now throw a `PlatformException` with an error code of `no_browser_available`. Thanks to the PR from [NikHomann](https://github.com/NikHomann)
+* Removed duplicate asterisk from the 6.0.3 changelog entry around how the example app got updated
+
+# 6.0.3
+
+* [Android] community has reported that there seem to be instances where the plugin encounters a null intent on some devices upon processing a end session request. This resulted in a crash before but will now throw a `PlatformException`. Thanks to the PR from [John](https://github.com/JohnKim7)
+* Updated example app so that the Android side specifies the minimum SDK version version that aligns with what's specified by the Flutter SDK
+
+# 6.0.2+1
+
+* [iOS] added privacy manifest
+
+# 6.0.2
+
+* [macOS] fixed deprecation warning around using `init` and to use `initWithPresentingWindow` via the AppAuth iOS/macOS SDK instead. Thanks to the PR from [Ivan Tivonenko](https://github.com/darkdarkdragon)
+
+# 6.0.1
+
+* [iOS] updated plugin so it supports apps that leverage the multiple window capability that Apple added to iOS 13. Thanks to the PR from [Jerold Albertson](https://github.com/jeroldalbertson-wf)
+* Added a link to the tutorials section of the readme that walks through how to use this plugin with Asgardeo. Thanks to the PR from [Achintha Isuru](https://github.com/Achintha444)
+
+# 6.0.0
+
+* **Potentially breaking change** [iOS][macOS] bumped AppAuth dependency to 1.6.2 where fixes were done to allow SDK to compile in Xcode 14 by bumping the minimum OS versions
+* Bumped maximum Dart SDK constraint
+* Recreated iOS and macOS side of example app so it would work with new Flutter 3.10 stable release
+
+
+## 5.0.0
+
+* **Breaking change** Bumped minimum Flutter SDK version to 3.0.0 and Dart SDK version to 2.17
+* [Android] removed references to v1 embedding
+* [Android] updated `compileSdkVersion` to 31 (Android 12)
+* [Android] bumped AGP (Android Gradle plugin) to 7.4.2
+* [Android] conditionally adds a namespace for compatibility with AGP 8.0
+    * Note: it's quite likely that the AppAuth Android SDK itself requires this change going forward but this change will ensure that the `flutter_appauth` plugin has done this change ahead of time
+* Applied following updates to the example app on the Android side
+    * Bumped AGP to 7.4.2 and Gradle 7.5
+    * Used namespace instead of package identifier since the latter has been deprecated (reference: https://developer.android.com/build/releases/past-releases/agp-7-3-0-release-notes#package-deprecated). Note that as of this writing, using the `flutter run` command on the stable channel (i.e. Flutter version 3.7.1) to debug/run the app will in an error that says "package identifier or launch activity not found". However, an APK or app bundle can still be built and will run on a device. The Flutter team have already addressed this issue on the master channel that is currently on version 3.10.0-17.0.pre.21 so would expect the next stable release to contain the fix. Alternatively developers can manually restore the package identifier though this change was done to avoid issues from happening in the future
+
+## 4.2.1+1
+
+* Added comments to example app to explain how code challenge takes place per PKCE. Thanks to PR from [Davide Ravasi](https://github.com/davideravasi)
+* Updated code for API docs to avoid lines longer than 80 characters
+
 ## 4.2.1
 
 * [iOS][macOS] bumped AppAuth dependency to 1.6.0
