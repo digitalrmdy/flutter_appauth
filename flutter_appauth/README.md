@@ -3,6 +3,21 @@
 [![pub package](https://img.shields.io/pub/v/flutter_appauth.svg)](https://pub.dartlang.org/packages/flutter_appauth)
 [![Build Status](https://api.cirrus-ci.com/github/MaikuB/flutter_appauth.svg)](https://cirrus-ci.com/github/MaikuB/flutter_appauth/)
 
+- [Introduction](#introduction)
+- [Tutorials from identity providers](#tutorials-from-identity-providers)
+- [Getting Started](#getting-started)
+  - [Detecting user cancellation](#detecting-user-cancellation)
+  - [Refreshing tokens](#refreshing-tokens)
+  - [End session](#end-session)
+  - [Handling errors](#handling-errors)
+  - [Ephemeral Sessions (iOS and macOS only)](#ephemeral-sessions-ios-and-macos-only)
+- [Android setup](#android-setup)
+- [iOS/macOS setup](#iosmacos-setup)
+- [API docs](#api-docs)
+- [FAQs](#faqs)
+
+
+## Introduction 
 A Flutter bridge for AppAuth (https://appauth.io) used authenticating and authorizing users. Note that AppAuth also supports the PKCE extension that is required some providers so this plugin should work with them.
 
 **IMPORTANT NOTES**:
@@ -11,9 +26,10 @@ A Flutter bridge for AppAuth (https://appauth.io) used authenticating and author
 
 ## Tutorials from identity providers
 
+The following are tutorials from identity providers that reference using this plugin. If the identity provider you're using isn't in this list, it doesn't mean that plugin doesn't work with it. It only means that these are some of the identity providers that have tutorials that specify that developers can use this plugin. Generally, if your identity provider supports OAuth 2.0 and follows the industry standards and specifications then the plugin can be expected to work. Developers should also note that the following links are managed by external parties. If you choose to open these links, do so at your own risk and be aware that it's possible the content may be out of date
+
 * [Asgardeo](https://wso2.com/asgardeo/docs/tutorials/auth-users-into-flutter-apps/)
-* [Auth0](https://auth0.com/blog/get-started-with-flutter-authentication/)
-* [FusionAuth](https://fusionauth.io/blog/2020/11/23/securing-flutter-oauth/)
+* [FusionAuth](https://fusionauth.io/docs/quickstarts/quickstart-flutter-native#setting-up-appauth)
 
 
 ## Getting Started
@@ -113,7 +129,7 @@ If your server has an [end session endpoint](https://openid.net/specs/openid-con
 await appAuth.endSession(EndSessionRequest(
           idTokenHint: '<idToken>',
           postLogoutRedirectUrl: '<postLogoutRedirectUrl>',
-          serviceConfiguration: AuthorizationServiceConfiguration(authorizationEndpoint: '<authorization_endpoint>',  tokenEndpooint: '<token_endpoint>', endSessionEndpoint: '<end_session_endpoint>'));
+          serviceConfiguration: AuthorizationServiceConfiguration(authorizationEndpoint: '<authorization_endpoint>', tokenEndpoint: '<token_endpoint>', endSessionEndpoint: '<end_session_endpoint>')));
 ```
 
 The above code passes an `AuthorizationServiceConfiguration` with all the endpoints defined but alternatives are to specify an `issuer` or `discoveryUrl` like you would with the other APIs in the plugin (e.g. `authorizeAndExchangeCode()`).

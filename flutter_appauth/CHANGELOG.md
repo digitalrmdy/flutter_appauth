@@ -1,3 +1,25 @@
+## [9.0.0-dev.1]
+
+* **Breaking change** updated minimum supported SDK version to Flutter 3.19/Dart 3.3
+* [Android] **Breaking changes** updated `compileSdkVersion` to 33 and AGP to 8.0.1 to align with what's used by the AppAuth Android SDK
+* [iOS][macOS] added Swift Package Manager support
+* [iOS][macOS] **Breaking changes** a number of Objective-C headers that were public are now no longer public. This means that classes were defined on the native side of the plugin may now no longer visible. These changes likely don't affect users of the plugin as this is to do with APIs that can be accessed via Objective-C or Swift. These changes were done to add Swift Package Manager support
+* Migrated Android side of example to use plugin DSL
+* Bumped `flutter_lints` dev dependency
+* Fixed typo in the code snippet shown in the **End session** section of the readme. Thanks to the PR from [barryguvenkaya](https://github.com/barryguvenkaya)
+* Updated readme to add a table of contents
+* Updated links to tutorials associated with identity providers. The Auth0 one has been removed as their tutorial has changed to use a different SDK. A disclaimer has been added to warn that the content is managed by external parties and may also be out of date
+
+## [8.0.2]
+
+
+* [iOS][macOS] bumped AppAuth iOS dependency to 1.7.6
+* [iOS][macOS] **BAD** added Swift Package Manager support but "local" testing didn't uncover. This has been reverted by 8.0.3
+
+## [8.0.1]
+
+* Fixed issue [568](https://github.com/MaikuB/flutter_appauth/issues/568) where compilation could fail with a `'OIDExternalUserAgent.h' file not found` error
+
 ## [8.0.0+1]
 
 * Updated 8.0.0 as it was missing mention of the privacy manifest file to the macOS implementation of the plugin

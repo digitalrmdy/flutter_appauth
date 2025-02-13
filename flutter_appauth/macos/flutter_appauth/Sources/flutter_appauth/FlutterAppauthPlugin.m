@@ -1,6 +1,6 @@
 #import <TargetConditionals.h>
 
-#import "FlutterAppauthPlugin.h"
+#import "FlutterAppauthPlugin_Private.h"
 
 @interface ArgumentProcessor : NSObject
 + (id _Nullable)processArgumentValue:(NSDictionary *)arguments
@@ -217,7 +217,7 @@ AppAuthAuthorization *authorization;
            externalUserAgent:requestParameters.externalUserAgent
                       result:result
                 exchangeCode:exchangeCode
-                       nonce:requestParameters.nonce
+                       nonce:requestParameters.nonce,
         defaultSystemBrowser:requestParameters.defaultSystemBrowser];
   } else if (requestParameters.discoveryUrl) {
     NSURL *discoveryUrl = [NSURL URLWithString:requestParameters.discoveryUrl];
